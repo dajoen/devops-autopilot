@@ -1,0 +1,42 @@
+# FastAPI and web framework dependencies
+fastapi==0.115.5
+uvicorn[standard]==0.34.0
+python-multipart==0.0.12
+
+# Database dependencies
+sqlalchemy==2.0.36
+asyncpg==0.30.0
+alembic==1.14.0
+
+# InfluxDB client
+influxdb-client==1.47.0
+
+# Configuration and data validation
+pydantic==2.10.3
+pydantic-settings==2.6.1
+PyYAML==6.0.2
+
+# HTTP client for external API calls
+httpx==0.28.1
+aiohttp==3.11.10
+
+# Authentication and security (optional)
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# Development and testing
+pytest==8.3.4
+pytest-asyncio==0.24.0
+pytest-cov==6.0.0
+black==24.10.0
+isort==5.13.2
+flake8==7.1.1
+mypy==1.13.0
+
+# Logging and monitoring
+structlog==24.5.0
+prometheus-client==0.21.0
+
+# Utilities
+python-dateutil==2.9.0.post0
+click==8.1.8

@@ -1,0 +1,58 @@
+# DevOps Autopilot Configuration
+# This file contains the default configuration settings for the application
+# Environment variables can override any of these settings
+
+app:
+  name: "DevOps Autopilot"
+  version: "1.0.0"
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+
+# Database configuration (PostgreSQL)
+database:
+  host: "localhost"
+  port: 5432
+  database: "devops_autopilot"
+  username: "postgres"
+  password: "password"
+
+# InfluxDB configuration for metrics
+influxdb:
+  url: "http://localhost:8086"
+  token: "your-influxdb-token-here"
+  org: "your-organization"
+  bucket: "devops-metrics"
+
+# CORS configuration
+cors:
+  origins:
+    - "http://localhost:3000"
+    - "http://localhost:3001"
+    - "https://your-frontend-domain.com"
+  methods:
+    - "*"
+  headers:
+    - "*"
+
+# Optional: Additional configuration sections can be added here
+# For example:
+# 
+# logging:
+#   level: "INFO"
+#   format: "json"
+#   
+# security:
+#   jwt_secret: "your-secret-key"
+#   token_expiry: 3600
+#   
+# external_apis:
+#   bamboo:
+#     base_url: "https://your-bamboo-server.com"
+#     username: "api-user"
+#     token: "api-token"
+#   
+#   llm:
+#     provider: "openai"
+#     api_key: "your-api-key"
+#     model: "gpt-3.5-turbo"

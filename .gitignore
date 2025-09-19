@@ -1,0 +1,112 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.next/
+dist/
+build/
+.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.venv/
+pip-wheel-metadata/
+pip-selfcheck.json
+*.egg-info/
+build/
+dist/
+.eggs/
+.pytest_cache/
+
+# Go
+bin/
+*.exe
+*.exe~
+*.test
+vendor/
+
+# Java / Maven / Gradle
+target/
+*.class
+*.jar
+*.war
+*.ear
+.gradle/
+build/
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+crash.log
+override.tfvars
+override.tfvars.json
+.terraform.lock.hcl
+
+# Ansible
+*.retry
+.ansible/tmp/
+
+# Docker
+docker-compose.override.yml
+docker-compose.*.local.yml
+**/.env
+!.env.example
+
+# Kubernetes / kubeconfig
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+
+# Secrets and keys
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+vault-password.txt
+*.enc
+secrets.yml
+
+# Logs and runtime files
+*.log
+logs/
+tmp/
+temp/
+*.pid
+*.seed
+
+# CI / Build system caches
+.cache/
+coverage/
+coverage.xml
+nyc_output/
+
+# Misc
+*.swp
+*.swo
+*.bak
+*.orig
