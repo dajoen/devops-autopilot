@@ -7,7 +7,7 @@
   "features": {},
   "forwardPorts": [8000, 8086, 5432],
   "runServices": ["postgres", "influxdb"],
-  "postCreateCommand": "pip install -r requirements-minimal.txt",
+  "postCreateCommand": "poetry install --with dev --no-root || poetry install --only=main,minimal --no-root",
   "customizations": {
     "vscode": {
       "settings": {

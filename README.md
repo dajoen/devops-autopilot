@@ -77,10 +77,12 @@ devops-autopilot/
 Use this when you want to run immediately without installing DB drivers.
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements-minimal.txt
-python run_demo.py
+# Install Poetry if not already installed
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Install minimal dependencies for demo mode
+poetry install --only=main,minimal
+poetry run python run_demo.py
 ```
 
 Browse:
@@ -92,10 +94,14 @@ Browse:
 Recommended Python: 3.13 (or use the Dev Container below).
 
 ```bash
-python3.13 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+# Install Poetry if not already installed
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Install all dependencies
+poetry install --with dev
+
+# Run the application
+poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 Ensure your Postgres and InfluxDB are available, or use the Dev Container which provides both.
@@ -155,8 +161,34 @@ base_url, user, token = s.bamboo_auth()
 
 ## Troubleshooting
 
-- On Python 3.13, some binary wheels may be unavailable (e.g., asyncpg, pydantic-core). Use the Dev Container or Python 3.12 locally, or run in demo mode with `requirements-minimal.txt`.
+- On Python 3.13, some binary wheels may be unavailable (e.g., asyncpg, pydantic-core). Use the Dev Container or Python 3.12 locally, or run in demo mode with `poetry install --only=main,minimal`.
 - If ports are in use (8000/5432/8086), stop existing services or change port mappings in `.devcontainer/docker-compose.yml`.
+
+### Poetry Commands
+
+```bash
+# Install all dependencies including dev tools
+poetry install --with dev
+
+# Install minimal dependencies only
+poetry install --only=main,minimal
+
+# Run tests
+poetry run pytest
+
+# Run with coverage
+poetry run pytest --cov=backend --cov=routers
+
+# Format code
+poetry run black .
+poetry run isort .
+
+# Type checking
+poetry run mypy backend routers
+
+# Linting
+poetry run flake8 backend routers
+```
 
 ## Contributing
 

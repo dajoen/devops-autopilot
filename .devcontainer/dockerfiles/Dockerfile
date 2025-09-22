@@ -8,17 +8,20 @@ RUN apt-get update \
         git \
         libpq-dev \
         postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+        && rm -rf /var/lib/apt/lists/*
+
+# Install Poetry
+RUN pip install --upgrade pip \
+    && pip install poetry==1.8.4
+
+# Configure Poetry: Don't create virtual env (we're already in container)
+RUN poetry config virtualenvs.create false
 
 WORKDIR /workspace
 
-# Optional: Pre-copy requirements to leverage Docker layer caching
-COPY requirements.txt /tmp/requirements.txt
-COPY requirements-minimal.txt /tmp/requirements-minimal.txt
-RUN pip install --upgrade pip \
-    && pip install -r /tmp/requirements.txt || pip install -r /tmp/requirements-minimal.txt
-
-# Simple wait-for utility (optional) available in PATH
+# Pre-copy Poetry files for layer caching
+COPY pyproject.toml poetry.loc[k] /tmp/
+RUN cd /tmp && poetry install --only=main --no-root || poetry install --only=main,minimal --no-root || echo "Poetry install failed, will retry at runtime"# Simple wait-for utility (optional) available in PATH
 ADD https://raw.githubusercontent.com/eficode/wait-for/v2.2.4/wait-for /usr/local/bin/wait-for
 RUN chmod +x /usr/local/bin/wait-for
 
