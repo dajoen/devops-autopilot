@@ -1,7 +1,7 @@
 """Health check service."""
 
 import time
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import List
 from ..models.health import HealthResponse, DatabaseStatus, HealthStatus
 from ..core.database import db_manager
@@ -28,7 +28,7 @@ class HealthService:
         
         return HealthResponse(
             status=overall_status,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(UTC),
             version=app_version,
             uptime_seconds=uptime_seconds,
             databases=databases
