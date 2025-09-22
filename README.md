@@ -54,7 +54,9 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 # Install minimal dependencies for demo mode
 poetry install --only=main,minimal
-poetry run python run_demo.py
+
+# Run demo mode (easiest way)
+poetry run demo
 ```
 
 Browse:
@@ -194,9 +196,10 @@ poetry update                       # Update dependencies
 poetry show --tree                  # Show dependency tree
 
 # Running the Application
-poetry run python run_demo.py              # Demo mode
-poetry run uvicorn main:app --reload       # Full mode with auto-reload
-poetry run uvicorn main_demo:app --reload  # Demo mode via uvicorn
+poetry run demo                         # Demo mode (no databases)
+poetry run dev                          # Full mode (requires databases)
+poetry run python run_demo.py          # Demo mode (alternative)
+poetry run uvicorn main:app --reload   # Full mode with auto-reload
 
 # Testing & Quality
 poetry run pytest                    # Run all tests

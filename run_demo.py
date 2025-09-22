@@ -85,8 +85,8 @@ def create_app() -> FastAPI:
     return app
 
 
-if __name__ == "__main__":
-    """Run the application with Uvicorn when executed directly."""
+def main():
+    """Main entry point for Poetry script."""
     config = get_config()
     
     print("🔧 DevOps Autopilot - Demo Mode")
@@ -105,3 +105,8 @@ if __name__ == "__main__":
         reload=config.app.debug,
         log_level="info" if not config.app.debug else "debug"
     )
+
+
+if __name__ == "__main__":
+    """Run the application with Uvicorn when executed directly."""
+    main()
