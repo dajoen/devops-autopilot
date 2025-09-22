@@ -26,7 +26,7 @@ services:
         condition: service_healthy
       influxdb:
         condition: service_healthy
-  command: bash -lc "sleep infinity"
+    command: bash -lc "sleep infinity"
 
   postgres:
     image: postgres:16
