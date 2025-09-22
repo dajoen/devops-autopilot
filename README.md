@@ -1,5 +1,9 @@
 # DevOps Autopilot
 
+![CI](https://github.com/dajoen/devops-autopilot/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 A Python 3.12 FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
 
 ## Features
@@ -153,3 +157,7 @@ base_url, user, token = s.bamboo_auth()
 
 - On Python 3.13, some binary wheels may be unavailable (e.g., asyncpg, pydantic-core). Use the Dev Container or Python 3.12 locally, or run in demo mode with `requirements-minimal.txt`.
 - If ports are in use (8000/5432/8086), stop existing services or change port mappings in `.devcontainer/docker-compose.yml`.
+
+## Contributing
+
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines, commit style, and PR process.
