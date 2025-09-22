@@ -116,7 +116,7 @@ class LocalAIProvider(LLMProvider):
 
 def _httpx_post(url: str, **kwargs: Any) -> Any:
     # Lazy import to avoid requiring httpx outside runtime
-    import httpx  # type: ignore
+    import httpx  # type: ignore[import]
     return httpx.post(url, **kwargs)
 
 
