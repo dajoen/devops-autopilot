@@ -1,0 +1,25 @@
+{
+  "name": "DevOps Autopilot (Python 3.12)",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "features": {},
+  "forwardPorts": [8000, 8086, 5432],
+  "runServices": ["postgres", "influxdb"],
+  "postCreateCommand": "pip install -r requirements.txt",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.analysis.typeCheckingMode": "basic"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "charliermarsh.ruff"
+      ]
+    }
+  },
+  "remoteUser": "vscode"
+}

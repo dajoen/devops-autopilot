@@ -52,3 +52,19 @@ python main.py
 The application will be available at http://localhost:8000 with:
 - API docs: http://localhost:8000/docs
 - Health check: http://localhost:8000/healthz
+
+## Dev Container (VS Code)
+
+This repository includes a VS Code Dev Container for consistent development:
+
+- Services: Python 3.12 app container, Postgres 16, InfluxDB 2.7
+- Auto-forwards: 8000 (API), 5432 (Postgres), 8086 (InfluxDB)
+
+How to use:
+
+1. Install the "Dev Containers" extension.
+2. Open the repository in VS Code.
+3. Reopen in container when prompted, or run "Dev Containers: Reopen in Container".
+4. The API will run via `uvicorn` with `--reload` inside the container.
+
+Environment inside the container is pre-configured via docker-compose for DB and Influx credentials. Adjust `config/config.yaml` or use env vars as needed.
