@@ -3,11 +3,11 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspace",
-  "overrideCommand": false,
+  "overrideCommand": true,
   "features": {},
   "forwardPorts": [8000, 8086, 5432],
   "runServices": ["postgres", "influxdb"],
-  "postCreateCommand": "pip install -r requirements.txt",
+  "postCreateCommand": "pip install -r requirements-minimal.txt",
   "customizations": {
     "vscode": {
       "settings": {
