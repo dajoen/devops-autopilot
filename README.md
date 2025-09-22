@@ -92,7 +92,7 @@ Browse:
 Recommended Python: 3.13 (or use the Dev Container below).
 
 ```bash
-python3.12 -m venv venv
+python3.13 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
