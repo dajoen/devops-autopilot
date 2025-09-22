@@ -6,7 +6,6 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, Type, Callable
 
 from ...core.settings import Settings
-import httpx
 
 
 class LLMProvider(ABC):
@@ -116,6 +115,8 @@ class LocalAIProvider(LLMProvider):
 
 
 def _httpx_post(url: str, **kwargs: Any) -> Any:
+    # Lazy import to avoid requiring httpx outside runtime
+    import httpx  # type: ignore
     return httpx.post(url, **kwargs)
 
 
