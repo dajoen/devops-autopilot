@@ -1,11 +1,11 @@
 """Database connection management for PostgreSQL with async SQLAlchemy."""
 
 from typing import Optional
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncEngine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncEngine, async_sessionmaker
 from contextlib import asynccontextmanager
 from ..models.config import DatabaseConfig
 from ..models.base import SQLAlchemyBase
+from sqlalchemy import text
 
 
 class DatabaseManager:
@@ -13,7 +13,7 @@ class DatabaseManager:
     
     _instance: Optional["DatabaseManager"] = None
     _engine: Optional[AsyncEngine] = None
-    _session_factory: Optional[sessionmaker] = None
+    _session_factory: Optional[async_sessionmaker[AsyncSession]] = None
     
     def __new__(cls) -> "DatabaseManager":
         """Ensure singleton instance."""
@@ -33,9 +33,8 @@ class DatabaseManager:
                 pool_recycle=3600,
             )
             
-            self._session_factory = sessionmaker(
+            self._session_factory = async_sessionmaker(
                 bind=self._engine,
-                class_=AsyncSession,
                 expire_on_commit=False,
             )
     
@@ -83,7 +82,7 @@ class DatabaseManager:
         
         try:
             async with self._engine.begin() as conn:
-                await conn.execute("SELECT 1")
+                await conn.execute(text("SELECT 1"))
                 return True
         except Exception:
             return False

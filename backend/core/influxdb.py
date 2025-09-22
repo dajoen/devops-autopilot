@@ -1,6 +1,6 @@
 """InfluxDB connection management."""
 
-from typing import Optional
+from typing import Optional, Dict
 from datetime import datetime
 import asyncio
 from ..models.config import InfluxDBConfig
@@ -30,9 +30,10 @@ class InfluxDBManager:
             from influxdb_client import InfluxDBClient
             from influxdb_client.client.write_api import SYNCHRONOUS
             
+            # Ensure we pass plain strings, not SecretStr objects
             self._client = InfluxDBClient(
-                url=config.url,
-                token=config.token,
+                url=str(config.url),
+                token=config.token.get_secret_value(),
                 org=config.org
             )
             
@@ -60,13 +61,13 @@ class InfluxDBManager:
         """Get InfluxDB query API."""
         return self._query_api
     
-    def write_point(self, measurement: str, fields: dict, tags: dict = None, timestamp: datetime = None) -> bool:
+    def write_point(self, measurement: str, fields: Dict[str, float | int | str], tags: Optional[Dict[str, str]] = None, timestamp: Optional[datetime] = None) -> bool:
         """Write a single point to InfluxDB."""
         if not self._write_api or not self._config:
             return False
         
         try:
-            from influxdb_client import Point
+            from influxdb_client import Point  # type: ignore[import]
             
             point = Point(measurement)
             

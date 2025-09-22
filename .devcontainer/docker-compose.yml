@@ -22,9 +22,11 @@ services:
       INFLUXDB_BUCKET: devops-metrics
       CORS_ORIGINS: http://localhost:3000,http://localhost:3001
     depends_on:
-      - postgres
-      - influxdb
-    command: bash -lc "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+      postgres:
+        condition: service_healthy
+      influxdb:
+        condition: service_healthy
+    command: bash -lc "python -c 'import time; time.sleep(2)' && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
 
   postgres:
     image: postgres:16
@@ -37,6 +39,11 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d devops_autopilot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
   influxdb:
     image: influxdb:2.7
@@ -52,6 +59,11 @@ services:
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: dev-token
     volumes:
       - influxdb2:/var/lib/influxdb2
+    healthcheck:
+      test: ["CMD", "curl", "-s", "http://localhost:8086/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
 
 volumes:
   pgdata: {}

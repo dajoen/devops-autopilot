@@ -3,6 +3,7 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspace",
+  "overrideCommand": false,
   "features": {},
   "forwardPorts": [8000, 8086, 5432],
   "runServices": ["postgres", "influxdb"],
@@ -17,7 +18,7 @@
         "ms-python.python",
         "ms-python.vscode-pylance",
         "ms-azuretools.vscode-docker",
-        "charliermarsh.ruff"
+        "astral-sh.ruff"
       ]
     }
   },
