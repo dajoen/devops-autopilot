@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/python-3.13-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A Python 3.12 FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
+A Python 3.13 FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
 
 ## Features
 
