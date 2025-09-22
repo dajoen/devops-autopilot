@@ -1,55 +1,25 @@
 # DevOps Autopilot
 
-![CI](https://github.com/dajoen/devops-autopilot/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/python-3.13-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-
-A Python 3.13 FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
+![CI](https://github.com/dajoenA modern FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
 
 ## Features
 
-- **FastAPI Framework**: Modern, fast web framework for building APIs
-- **Multiple Routers**: Organized endpoints for LLM, Bamboo CI/CD, Reports, Config, and Health
-- **Configuration Management**: YAML-based config with environment variable overrides
+- **FastAPI Framework**: High-performance async web framework with automatic OpenAPI documentation
+- **Multiple Operation Modes**: Full mode with databases or lightweight demo mode
 - **Database Integration**: 
   - PostgreSQL with async SQLAlchemy for operational data
   - InfluxDB 2.0 for metrics and time-series data
-- **CORS Support**: Configurable cross-origin resource sharing
+- **LLM Integration**: Pluggable provider system supporting LocalAI, OpenAI, and custom providers
+- **External APIs**: Bamboo CI/CD integration with authentication
+- **Configuration Management**: YAML-based config with environment variable overrides
+- **Strict Validation**: Pydantic models with SecretStr for sensitive data
 - **Health Monitoring**: Comprehensive health checks with database connectivity
-- **Modular Architecture**: Clean separation with models, services, and core utilities
+- **Dev Container**: Complete development environment with PostgreSQL and InfluxDB
+- **Poetry**: Modern dependency management with lock filesvops-autopilot/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/python-3.13-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Project Structure
-
-```
-devops-autopilot/
-├── backend/
-│   ├── models/          # Pydantic data models
-│   ├── services/        # Business logic services
-│   └── core/           # Core utilities (config, database, influxdb)
-├── routers/            # FastAPI route handlers
-├── config/             # Configuration files
-├── main.py            # Main application entry point
-└── requirements.txt   # Python dependencies
-```
-
-## Installation
-
-1. **Install Python dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **Set up PostgreSQL database**:
-   ```bash
-   createdb devops_autopilot
-   ```
-
-3. **Configure the application**:
-   Edit `config/config.yaml` with your database settings.
-
-# DevOps Autopilot
-
-A FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
+A modern FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
 
 ## Features
 
@@ -60,16 +30,18 @@ A FastAPI application for automated DevOps operations with PostgreSQL and Influx
 devops-autopilot/
 ├── backend/
 │   ├── core/             # Config manager, DB/Influx managers, Settings facade
-│   ├── models/           # Pydantic data models (app, db, influx, health, runs, logs)
-│   └── services/         # Business logic (health, runs, logs)
+│   ├── models/           # Pydantic data models (config, health, runs, logs)
+│   └── services/         # Business logic and LLM providers
 ├── routers/              # FastAPI route handlers
 ├── config/               # Configuration files (YAML)
-├── .devcontainer/        # Dev Container config (Dockerfile + docker-compose)
+├── tests/                # Unit tests with pytest
+├── .devcontainer/        # Dev Container with PostgreSQL + InfluxDB
+├── .github/workflows/    # CI/CD pipelines
 ├── main.py               # Full application (DB + Influx initialization)
 ├── main_demo.py          # Demo application (no external drivers needed)
 ├── run_demo.py           # Demo runner script
-├── requirements.txt      # Full dependencies
-└── requirements-minimal.txt  # Minimal deps for demo mode
+├── pyproject.toml        # Poetry configuration and dependencies
+└── poetry.lock           # Locked dependency versions
 ```
 
 ## Quickstart (Demo mode)
@@ -106,24 +78,25 @@ poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 Ensure your Postgres and InfluxDB are available, or use the Dev Container which provides both.
 
-## Dev Container (VS Code)
+## Dev Container (Recommended)
 
-This repository includes a VS Code Dev Container for consistent development:
+This repository includes a complete VS Code Dev Container setup:
 
-- Services: Python 3.13 app container, Postgres 16, InfluxDB 2.7
-- Auto-forwards: 8000 (API), 5432 (Postgres), 8086 (InfluxDB)
+**Services:**
+- Python 3.13 app container with Poetry
+- PostgreSQL 16 (port 5432)
+- InfluxDB 2.7 (port 8086)
 
-How to use:
+**Quick Start:**
+1. Install the "Dev Containers" extension in VS Code
+2. Open this repository in VS Code
+3. Choose "Reopen in Container" when prompted
+4. Services start automatically with health checks
+5. Run the app: `poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --reload`
 
-1. Install the "Dev Containers" extension.
-2. Open the repository in VS Code.
-3. Reopen in container when prompted, or run "Dev Containers: Reopen in Container".
-4. The API runs via `uvicorn` with `--reload` inside the container.
-
-InfluxDB defaults (via compose):
-- Org: `dev-org`
-- Bucket: `devops-metrics`
-- Token: `dev-token`
+**Default Credentials:**
+- PostgreSQL: `postgres/postgres` → `devops_autopilot` database
+- InfluxDB: Org `dev-org`, Bucket `devops-metrics`, Token `dev-token`
 
 ## Configuration
 
@@ -139,57 +112,116 @@ Environment variables (subset):
 - LLM: `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`, `LLM_BASE_URL`
 - Bamboo: `BAMBOO_BASE_URL`, `BAMBOO_USERNAME`, `BAMBOO_TOKEN`
 
-## Settings helpers
+## Settings & Configuration
 
-High-level accessors for common config, with strict validation and helpful errors.
+The app uses a strict configuration system with validation:
 
 ```python
 from backend.core.settings import Settings
 
+# Initialize settings (loads config.yaml + env overrides)
 s = Settings()
-dsn = s.postgres_dsn()              # e.g., postgresql+asyncpg://...
+
+# Database connection
+dsn = s.postgres_dsn()  # postgresql+asyncpg://user:pass@host:port/db
+
+# InfluxDB config
 url, org, bucket, token = s.influx_config()
-provider = s.provider()             # raises if not configured
-base_url, user, token = s.bamboo_auth()
+
+# LLM provider (validates configuration)
+provider = s.provider()  # e.g., "localai", "dummy"
+
+# Bamboo CI integration
+base_url, username, token = s.bamboo_auth()
 ```
 
-## Endpoints (demo)
+**Environment Variables:**
+- Database: `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
+- InfluxDB: `INFLUXDB_URL`, `INFLUXDB_TOKEN`, `INFLUXDB_ORG`, `INFLUXDB_BUCKET`
+- LLM: `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`, `LLM_BASE_URL`
+- Bamboo: `BAMBOO_BASE_URL`, `BAMBOO_USERNAME`, `BAMBOO_TOKEN`
 
-- `GET /healthz` — health summary (demo mode uses mocked DB)
-- `GET /healthz/ping` — simple ping
-- `GET /docs` — OpenAPI UI
+## API Endpoints
+
+**Health & Status:**
+- `GET /healthz` — Comprehensive health check with database status
+- `GET /healthz/ping` — Simple alive check
+- `GET /` — API information and status
+
+**LLM Operations:**
+- `POST /llm/generate` — Generate text using configured LLM provider
+- `GET /llm/models` — List available models
+- `GET /llm/usage` — Usage statistics
+
+**DevOps Integration:**
+- `GET /bamboo/*` — Bamboo CI/CD operations
+- `GET /reports/*` — Generate reports
+- `GET /config/*` — Configuration management
+
+**Documentation:**
+- `GET /docs` — Interactive OpenAPI/Swagger UI
+- `GET /redoc` — ReDoc documentation
 
 ## Troubleshooting
 
-- On Python 3.13, some binary wheels may be unavailable (e.g., asyncpg, pydantic-core). Use the Dev Container or Python 3.12 locally, or run in demo mode with `poetry install --only=main,minimal`.
-- If ports are in use (8000/5432/8086), stop existing services or change port mappings in `.devcontainer/docker-compose.yml`.
+**Python 3.13 Compatibility:**
+- Some binary wheels may be unavailable. Use Poetry's minimal install: `poetry install --only=main,minimal`
+- Alternatively, use the Dev Container (Python 3.13 + pre-built dependencies)
+- For local development, Python 3.12 works perfectly with all dependencies
 
-### Poetry Commands
+**Port Conflicts:**
+- API (8000), PostgreSQL (5432), or InfluxDB (8086) ports in use
+- Stop existing services: `docker stop $(docker ps -q)`
+- Or modify port mappings in `.devcontainer/docker-compose.yml`
+
+**Configuration Issues:**
+- Missing config: Copy `config/config.yaml` and update database credentials
+- Environment variables override YAML settings
+- Use `Settings().postgres_dsn()` to validate database config
+
+**Dev Container Problems:**
+- Rebuild container: "Dev Containers: Rebuild and Reopen in Container"
+- Check Docker is running: `docker version`
+- Clear Docker cache: `docker system prune`
+
+### Development Commands
 
 ```bash
-# Install all dependencies including dev tools
-poetry install --with dev
+# Dependency Management
+poetry install --with dev          # All dependencies + dev tools
+poetry install --only=main,minimal # Minimal set for demo mode
+poetry update                       # Update dependencies
+poetry show --tree                  # Show dependency tree
 
-# Install minimal dependencies only
-poetry install --only=main,minimal
+# Running the Application
+poetry run python run_demo.py              # Demo mode
+poetry run uvicorn main:app --reload       # Full mode with auto-reload
+poetry run uvicorn main_demo:app --reload  # Demo mode via uvicorn
 
-# Run tests
-poetry run pytest
+# Testing & Quality
+poetry run pytest                    # Run all tests
+poetry run pytest --cov=backend     # With coverage report
+poetry run pytest -v tests/         # Verbose test output
 
-# Run with coverage
-poetry run pytest --cov=backend --cov=routers
+# Code Formatting & Linting
+poetry run black .                   # Format code
+poetry run isort .                   # Sort imports
+poetry run flake8 backend routers   # Lint code
+poetry run mypy backend routers     # Type checking
 
-# Format code
-poetry run black .
-poetry run isort .
-
-# Type checking
-poetry run mypy backend routers
-
-# Linting
-poetry run flake8 backend routers
+# All quality checks at once
+poetry run black . && poetry run isort . && poetry run flake8 backend routers && poetry run mypy backend routers
 ```
 
 ## Contributing
 
-Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines, commit style, and PR process.
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+- Development setup and workflow
+- Code style guidelines (Black + isort)
+- Commit message format
+- Pull request process
+- Testing requirements
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
