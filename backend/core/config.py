@@ -86,6 +86,24 @@ class ConfigManager:
             origins_str = os.getenv("CORS_ORIGINS", "")
             origins = [origin.strip() for origin in origins_str.split(",")]
             env_config.setdefault("cors", {})["origins"] = origins
+
+        # External APIs: LLM
+        if os.getenv("LLM_PROVIDER"):
+            env_config.setdefault("external_apis", {}).setdefault("llm", {})["provider"] = os.getenv("LLM_PROVIDER")
+        if os.getenv("LLM_API_KEY"):
+            env_config.setdefault("external_apis", {}).setdefault("llm", {})["api_key"] = os.getenv("LLM_API_KEY")
+        if os.getenv("LLM_MODEL"):
+            env_config.setdefault("external_apis", {}).setdefault("llm", {})["model"] = os.getenv("LLM_MODEL")
+        if os.getenv("LLM_BASE_URL"):
+            env_config.setdefault("external_apis", {}).setdefault("llm", {})["base_url"] = os.getenv("LLM_BASE_URL")
+
+        # External APIs: Bamboo
+        if os.getenv("BAMBOO_BASE_URL"):
+            env_config.setdefault("external_apis", {}).setdefault("bamboo", {})["base_url"] = os.getenv("BAMBOO_BASE_URL")
+        if os.getenv("BAMBOO_USERNAME"):
+            env_config.setdefault("external_apis", {}).setdefault("bamboo", {})["username"] = os.getenv("BAMBOO_USERNAME")
+        if os.getenv("BAMBOO_TOKEN"):
+            env_config.setdefault("external_apis", {}).setdefault("bamboo", {})["token"] = os.getenv("BAMBOO_TOKEN")
         
         return env_config
     
