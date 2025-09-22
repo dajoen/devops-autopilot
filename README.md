@@ -1,10 +1,10 @@
 # DevOps Autopilot
 
 ![CI](https://github.com/dajoen/devops-autopilot/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/python-3.12-blue)
+![Python](https://img.shields.io/badge/python-3.13-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A Python 3.12 FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
+A Python 3.13 FastAPI application for automated DevOps operations with PostgreSQL and InfluxDB integration.
 
 ## Features
 
@@ -89,10 +89,10 @@ Browse:
 
 ## Full setup (Local)
 
-Recommended Python: 3.12 (or use the Dev Container below).
+Recommended Python: 3.13 (or use the Dev Container below).
 
 ```bash
-python3.12 -m venv venv
+python3.13 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
@@ -104,7 +104,7 @@ Ensure your Postgres and InfluxDB are available, or use the Dev Container which 
 
 This repository includes a VS Code Dev Container for consistent development:
 
-- Services: Python 3.12 app container, Postgres 16, InfluxDB 2.7
+- Services: Python 3.13 app container, Postgres 16, InfluxDB 2.7
 - Auto-forwards: 8000 (API), 5432 (Postgres), 8086 (InfluxDB)
 
 How to use:
