@@ -1,5 +1,5 @@
 {
-  "name": "DevOps Autopilot (Python 3.12)",
+  "name": "DevOps Autopilot (Python 3.13)",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspace",

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/python:3.12
+FROM mcr.microsoft.com/vscode/devcontainers/python:3.13
 
 # Install system deps for common Python packages (asyncpg, psycopg, build tools)
 RUN apt-get update \
