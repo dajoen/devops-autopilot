@@ -1,11 +1,6 @@
-"""Services package initialization."""
+"""Services package initialization.
 
-from .health import HealthService
-from .runs import RunService
-from .logs import LogService
+Keep this module import-light to avoid pulling heavy dependencies during package import.
+"""
 
-__all__ = [
-    "HealthService",
-    "RunService", 
-    "LogService",
-]
+__all__: list[str] = []
