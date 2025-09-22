@@ -1,0 +1,19 @@
+# FastAPI and web framework dependencies
+fastapi==0.115.5
+uvicorn[standard]==0.34.0
+python-multipart==0.0.12
+
+# Database dependencies (SQLAlchemy without asyncpg for now)
+sqlalchemy==2.0.36
+
+# Configuration and data validation
+pydantic==2.10.3
+pydantic-settings==2.6.1
+PyYAML==6.0.2
+
+# HTTP client for external API calls
+httpx==0.28.1
+
+# Utilities
+python-dateutil==2.9.0.post0
+click==8.1.8
