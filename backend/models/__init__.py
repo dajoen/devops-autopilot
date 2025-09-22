@@ -8,9 +8,9 @@ access using PEP 562 (__getattr__).
 from __future__ import annotations
 
 import importlib
-from typing import Any, Dict
+from typing import Any
 
-_EXPORTS: Dict[str, tuple[str, str]] = {
+_EXPORTS: dict[str, tuple[str, str]] = {
     # config
     "ConfigModel": ("backend.models.config", "ConfigModel"),
     "DatabaseConfig": ("backend.models.config", "DatabaseConfig"),
